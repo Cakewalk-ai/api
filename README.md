@@ -10,7 +10,7 @@ npm install @cakewalk-ai/api
 
 ## Getting Your API Key
 
-Get your API key from [app.cakewalk.ai/aeo/settings](https://app.cakewalk.ai/aeo/settings). Your project ID can be found in the same settings page.
+Get your API key and project ID from [app.cakewalk.ai/keys](https://app.cakewalk.ai/keys).
 
 ## Quick Start
 
