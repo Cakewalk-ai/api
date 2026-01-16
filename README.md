@@ -15,9 +15,9 @@ Get your API key from [app.cakewalk.ai/aeo/settings](https://app.cakewalk.ai/aeo
 ## Quick Start
 
 ```typescript
-import { BlogClient } from '@cakewalk-ai/api';
+import { AEO } from '@cakewalk-ai/api';
 
-const client = new BlogClient('your-api-key');
+const client = new AEO.BlogClient('your-api-key');
 
 // Get articles (cached automatically)
 const { articles, total, totalPages } = await client.getArticles(1, 10);
@@ -35,7 +35,7 @@ const tagArticles = await client.getArticlesByTag('ai-search', 1, 10);
 ## Configuration
 
 ```typescript
-const client = new BlogClient('your-api-key', {
+const client = new AEO.BlogClient('your-api-key', {
   cacheTtl: 600,  // Cache TTL in seconds (default: 300)
   baseUrl: 'https://api.cakewalk.ai',  // Custom API URL
 });
@@ -116,13 +116,8 @@ All API responses are cached in-memory by default for 5 minutes. This reduces AP
 Full TypeScript support with exported types:
 
 ```typescript
-import type {
-  Article,
-  ArticleSummary,
-  ArticlesResponse,
-  Category,
-  Tag
-} from '@cakewalk-ai/api';
+import { AEO } from '@cakewalk-ai/api';
+import type { Article, ArticlesResponse, Category, Tag } from '@cakewalk-ai/api';
 ```
 
 ## License

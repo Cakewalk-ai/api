@@ -1,4 +1,8 @@
-export { BlogClient } from './client';
+import * as AEO from './aeo';
+
+export { AEO };
+
+// Also export types at top level for convenience
 export type {
   Article,
   ArticleSummary,
@@ -6,4 +10,4 @@ export type {
   Category,
   Tag,
   ClientOptions,
-} from './types';
+} from './aeo';
