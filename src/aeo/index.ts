@@ -4,4 +4,5 @@ export type {
   PostsResponse,
   PostResponse,
   ClientOptions,
+  BlogClientConfig,
 } from './types';

@@ -4,6 +4,7 @@ import type {
   PostResponse,
   ClientOptions,
   CacheEntry,
+  BlogClientConfig,
 } from './types';
 
 const DEFAULT_BASE_URL = 'https://api.cakewalk.ai';
@@ -11,14 +12,16 @@ const DEFAULT_CACHE_TTL = 300; // 5 minutes
 
 export class BlogClient {
   private apiKey: string;
+  private projectId: string;
   private baseUrl: string;
   private cacheTtl: number;
   private cache = new Map<string, CacheEntry<unknown>>();
 
-  constructor(apiKey: string, options: ClientOptions = {}) {
-    this.apiKey = apiKey;
-    this.baseUrl = options.baseUrl || DEFAULT_BASE_URL;
-    this.cacheTtl = (options.cacheTtl || DEFAULT_CACHE_TTL) * 1000;
+  constructor(config: BlogClientConfig) {
+    this.apiKey = config.apiKey;
+    this.projectId = config.projectId;
+    this.baseUrl = config.options?.baseUrl || DEFAULT_BASE_URL;
+    this.cacheTtl = (config.options?.cacheTtl || DEFAULT_CACHE_TTL) * 1000;
   }
 
   /**
@@ -45,6 +48,7 @@ export class BlogClient {
     const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${this.apiKey}`,
+        'X-Project-Id': this.projectId,
         'Content-Type': 'application/json',
       },
     });
@@ -71,7 +75,7 @@ export class BlogClient {
       offset: String(offset),
     });
 
-    return this.cached(`posts:${status}:${limit}:${offset}`, () =>
+    return this.cached(`${this.projectId}:posts:${status}:${limit}:${offset}`, () =>
       this.fetch<PostsResponse>(`/v1/posts?${params}`)
     );
   }
@@ -81,7 +85,7 @@ export class BlogClient {
    */
   async getPostById(id: number): Promise<Post | null> {
     try {
-      const response = await this.cached(`post:id:${id}`, () =>
+      const response = await this.cached(`${this.projectId}:post:id:${id}`, () =>
         this.fetch<PostResponse>(`/v1/posts/${id}`)
       );
       return response.post;
@@ -98,7 +102,7 @@ export class BlogClient {
    */
   async getPostBySlug(slug: string): Promise<Post | null> {
     try {
-      const response = await this.cached(`post:slug:${slug}`, () =>
+      const response = await this.cached(`${this.projectId}:post:slug:${slug}`, () =>
         this.fetch<PostResponse>(`/v1/posts/slug/${slug}`)
       );
       return response.post;

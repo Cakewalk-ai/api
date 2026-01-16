@@ -41,6 +41,15 @@ export interface ClientOptions {
   baseUrl?: string;
 }
 
+export interface BlogClientConfig {
+  /** Your organization API key */
+  apiKey: string;
+  /** The project ID to fetch posts from */
+  projectId: string;
+  /** Optional client configuration */
+  options?: ClientOptions;
+}
+
 export interface CacheEntry<T> {
   data: T;
   expires: number;

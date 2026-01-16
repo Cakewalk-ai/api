@@ -10,14 +10,17 @@ npm install @cakewalk-ai/api
 
 ## Getting Your API Key
 
-Get your API key from [app.cakewalk.ai/aeo/settings](https://app.cakewalk.ai/aeo/settings).
+Get your API key from [app.cakewalk.ai/aeo/settings](https://app.cakewalk.ai/aeo/settings). Your project ID can be found in the same settings page.
 
 ## Quick Start
 
 ```typescript
 import { AEO } from '@cakewalk-ai/api';
 
-const client = new AEO.BlogClient('your-api-key');
+const client = new AEO.BlogClient({
+  apiKey: 'your-api-key',
+  projectId: 'your-project-id',
+});
 
 // Get published posts (cached automatically)
 const { posts, pagination } = await client.getPosts();
@@ -39,9 +42,13 @@ const post = await client.getPostById(123);
 ## Configuration
 
 ```typescript
-const client = new AEO.BlogClient('your-api-key', {
-  cacheTtl: 600,  // Cache TTL in seconds (default: 300)
-  baseUrl: 'https://api.cakewalk.ai',  // Custom API URL
+const client = new AEO.BlogClient({
+  apiKey: 'your-api-key',
+  projectId: 'your-project-id',
+  options: {
+    cacheTtl: 600,  // Cache TTL in seconds (default: 300)
+    baseUrl: 'https://api.cakewalk.ai',  // Custom API URL
+  },
 });
 ```
 
