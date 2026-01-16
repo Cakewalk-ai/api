@@ -19,17 +19,21 @@ import { AEO } from '@cakewalk-ai/api';
 
 const client = new AEO.BlogClient('your-api-key');
 
-// Get articles (cached automatically)
-const { articles, total, totalPages } = await client.getArticles(1, 10);
+// Get published posts (cached automatically)
+const { posts, pagination } = await client.getPosts();
 
-// Get single article
-const article = await client.getArticle('my-article-slug');
+// Get posts with options
+const { posts } = await client.getPosts({
+  status: 'published',
+  limit: 10,
+  offset: 0,
+});
 
-// Get articles by category
-const categoryArticles = await client.getArticlesByCategory('marketing', 1, 10);
+// Get single post by slug
+const post = await client.getPostBySlug('my-post-slug');
 
-// Get articles by tag
-const tagArticles = await client.getArticlesByTag('ai-search', 1, 10);
+// Get single post by ID
+const post = await client.getPostById(123);
 ```
 
 ## Configuration
@@ -43,56 +47,36 @@ const client = new AEO.BlogClient('your-api-key', {
 
 ## API Reference
 
-### `getArticles(page?, limit?)`
+### `getPosts(options?)`
 
-Get paginated list of articles.
+Get paginated list of posts.
 
 ```typescript
-const response = await client.getArticles(1, 10);
-// Returns: { articles, total, page, limit, totalPages }
+const { posts, pagination } = await client.getPosts({
+  status: 'published',  // 'published' | 'planned' | 'writing' | 'review' | 'all'
+  limit: 50,            // Max 100
+  offset: 0,
+});
+
+// pagination: { total, limit, offset, has_more }
 ```
 
-### `getArticle(slug)`
+### `getPostBySlug(slug)`
 
-Get a single article by slug.
+Get a single post by slug.
 
 ```typescript
-const article = await client.getArticle('how-to-optimize-for-ai');
-// Returns: Article | null
+const post = await client.getPostBySlug('how-to-optimize-for-ai');
+// Returns: Post | null
 ```
 
-### `getArticlesByCategory(categorySlug, page?, limit?)`
+### `getPostById(id)`
 
-Get articles filtered by category.
-
-```typescript
-const response = await client.getArticlesByCategory('guides', 1, 10);
-```
-
-### `getArticlesByTag(tagSlug, page?, limit?)`
-
-Get articles filtered by tag.
+Get a single post by ID.
 
 ```typescript
-const response = await client.getArticlesByTag('chatgpt', 1, 10);
-```
-
-### `getCategories()`
-
-Get all available categories.
-
-```typescript
-const categories = await client.getCategories();
-// Returns: Category[]
-```
-
-### `getTags()`
-
-Get all available tags.
-
-```typescript
-const tags = await client.getTags();
-// Returns: Tag[]
+const post = await client.getPostById(123);
+// Returns: Post | null
 ```
 
 ### `clearCache()`
@@ -101,6 +85,32 @@ Clear the entire cache.
 
 ```typescript
 client.clearCache();
+```
+
+## Post Object
+
+```typescript
+interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  status: string;
+  post_type: string;       // 'pillar' | 'cluster' | 'standalone'
+  post_format: string;     // 'ultimate-guide' | 'how-to' | 'comparison' | etc.
+  primary_keyword: string;
+  secondary_keywords: string[];
+  excerpt: string | null;
+  body_markdown: string | null;
+  body_html: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  featured_image_url: string | null;
+  ai_summary: string | null;
+  faq_questions: Array<{ question: string; answer: string }>;
+  published_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
 ```
 
 ## Caching
@@ -117,7 +127,7 @@ Full TypeScript support with exported types:
 
 ```typescript
 import { AEO } from '@cakewalk-ai/api';
-import type { Article, ArticlesResponse, Category, Tag } from '@cakewalk-ai/api';
+import type { Post, PostsResponse } from '@cakewalk-ai/api';
 ```
 
 ## License

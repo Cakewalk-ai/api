@@ -1,9 +1,7 @@
 export { BlogClient } from './client';
 export type {
-  Article,
-  ArticleSummary,
-  ArticlesResponse,
-  Category,
-  Tag,
+  Post,
+  PostsResponse,
+  PostResponse,
   ClientOptions,
 } from './types';

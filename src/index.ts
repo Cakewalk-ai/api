@@ -4,10 +4,8 @@ export { AEO };
 
 // Also export types at top level for convenience
 export type {
-  Article,
-  ArticleSummary,
-  ArticlesResponse,
-  Category,
-  Tag,
+  Post,
+  PostsResponse,
+  PostResponse,
   ClientOptions,
 } from './aeo';

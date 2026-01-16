@@ -1,9 +1,7 @@
 import type {
-  Article,
-  ArticleSummary,
-  ArticlesResponse,
-  Category,
-  Tag,
+  Post,
+  PostsResponse,
+  PostResponse,
   ClientOptions,
   CacheEntry,
 } from './types';
@@ -59,69 +57,57 @@ export class BlogClient {
   }
 
   /**
-   * Get paginated list of articles
+   * Get paginated list of posts
    */
-  async getArticles(page = 1, limit = 10): Promise<ArticlesResponse> {
-    return this.cached(`articles:${page}:${limit}`, () =>
-      this.fetch<ArticlesResponse>(`/articles?page=${page}&limit=${limit}`)
+  async getPosts(options: {
+    status?: 'published' | 'planned' | 'writing' | 'review' | 'all';
+    limit?: number;
+    offset?: number;
+  } = {}): Promise<PostsResponse> {
+    const { status = 'published', limit = 50, offset = 0 } = options;
+    const params = new URLSearchParams({
+      status,
+      limit: String(limit),
+      offset: String(offset),
+    });
+
+    return this.cached(`posts:${status}:${limit}:${offset}`, () =>
+      this.fetch<PostsResponse>(`/v1/posts?${params}`)
     );
   }
 
   /**
-   * Get a single article by slug
+   * Get a single post by ID
    */
-  async getArticle(slug: string): Promise<Article | null> {
-    return this.cached(`article:${slug}`, () =>
-      this.fetch<Article>(`/articles/${slug}`)
-    );
+  async getPostById(id: number): Promise<Post | null> {
+    try {
+      const response = await this.cached(`post:id:${id}`, () =>
+        this.fetch<PostResponse>(`/v1/posts/${id}`)
+      );
+      return response.post;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('404')) {
+        return null;
+      }
+      throw error;
+    }
   }
 
   /**
-   * Get articles by category
+   * Get a single post by slug
    */
-  async getArticlesByCategory(
-    categorySlug: string,
-    page = 1,
-    limit = 10
-  ): Promise<ArticlesResponse> {
-    return this.cached(`category:${categorySlug}:${page}:${limit}`, () =>
-      this.fetch<ArticlesResponse>(
-        `/categories/${categorySlug}/articles?page=${page}&limit=${limit}`
-      )
-    );
-  }
-
-  /**
-   * Get articles by tag
-   */
-  async getArticlesByTag(
-    tagSlug: string,
-    page = 1,
-    limit = 10
-  ): Promise<ArticlesResponse> {
-    return this.cached(`tag:${tagSlug}:${page}:${limit}`, () =>
-      this.fetch<ArticlesResponse>(
-        `/tags/${tagSlug}/articles?page=${page}&limit=${limit}`
-      )
-    );
-  }
-
-  /**
-   * Get all categories
-   */
-  async getCategories(): Promise<Category[]> {
-    return this.cached('categories', () =>
-      this.fetch<Category[]>('/categories')
-    );
-  }
-
-  /**
-   * Get all tags
-   */
-  async getTags(): Promise<Tag[]> {
-    return this.cached('tags', () =>
-      this.fetch<Tag[]>('/tags')
-    );
+  async getPostBySlug(slug: string): Promise<Post | null> {
+    try {
+      const response = await this.cached(`post:slug:${slug}`, () =>
+        this.fetch<PostResponse>(`/v1/posts/slug/${slug}`)
+      );
+      return response.post;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('404')) {
+        return null;
+      }
+      throw error;
+    }
   }
 
   /**

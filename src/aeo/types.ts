@@ -1,45 +1,37 @@
-export interface Article {
-  id: string;
+export interface Post {
+  id: number;
+  title: string;
   slug: string;
-  headline: string;
-  metaDescription: string;
-  content: string;
-  contentHtml: string;
-  readingTime: number;
-  publishedAt: string;
-  updatedAt: string;
-  categories: Category[];
-  tags: Tag[];
-  relatedArticles?: ArticleSummary[];
+  status: string;
+  post_type: string;
+  post_format: string;
+  primary_keyword: string;
+  secondary_keywords: string[];
+  excerpt: string | null;
+  body_markdown: string | null;
+  body_html: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  featured_image_url: string | null;
+  ai_summary: string | null;
+  faq_questions: Array<{ question: string; answer: string }>;
+  published_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
-export interface ArticleSummary {
-  id: string;
-  slug: string;
-  headline: string;
-  metaDescription: string;
-  readingTime: number;
-  publishedAt: string;
-  categories: Category[];
-  tags: Tag[];
+export interface PostsResponse {
+  posts: Post[];
+  pagination: {
+    total: number;
+    limit: number;
+    offset: number;
+    has_more: boolean;
+  };
 }
 
-export interface Category {
-  slug: string;
-  name: string;
-}
-
-export interface Tag {
-  slug: string;
-  name: string;
-}
-
-export interface ArticlesResponse {
-  articles: ArticleSummary[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
+export interface PostResponse {
+  post: Post;
 }
 
 export interface ClientOptions {
