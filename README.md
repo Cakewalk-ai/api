@@ -18,8 +18,8 @@ Get your API key and project ID from [app.cakewalk.ai/keys](https://app.cakewalk
 import { AEO } from '@cakewalk-ai/api';
 
 const client = new AEO.BlogClient({
-  apiKey: 'your-api-key',
-  projectId: 'your-project-id',
+  apiKey: 'ck_live_...',
+  projectId: 'proj_abc123...',
 });
 
 // Get published posts (cached automatically)
@@ -43,8 +43,8 @@ const post = await client.getPostById(123);
 
 ```typescript
 const client = new AEO.BlogClient({
-  apiKey: 'your-api-key',
-  projectId: 'your-project-id',
+  apiKey: 'ck_live_...',
+  projectId: 'proj_abc123...',
   options: {
     cacheTtl: 600,  // Cache TTL in seconds (default: 300)
     baseUrl: 'https://api.cakewalk.ai',  // Custom API URL
