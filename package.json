@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cakewalk-ai/aeo-api"
+    "url": "https://github.com/cakewalk-ai/api"
   },
   "homepage": "https://cakewalk.ai",
   "devDependencies": {
