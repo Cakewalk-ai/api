@@ -1,17 +1,21 @@
-# @cakewalk-ai/aeo-api
+# @cakewalk-ai/api
 
-Official TypeScript client for the Cakewalk AEO Blog API with built-in caching.
+Official TypeScript client for the [Cakewalk](https://cakewalk.ai) API with built-in caching.
 
 ## Installation
 
 ```bash
-npm install @cakewalk-ai/aeo-api
+npm install @cakewalk-ai/api
 ```
+
+## Getting Your API Key
+
+Get your API key from [app.cakewalk.ai/settings](https://app.cakewalk.ai/settings).
 
 ## Quick Start
 
 ```typescript
-import { BlogClient } from '@cakewalk-ai/aeo-api';
+import { BlogClient } from '@cakewalk-ai/api';
 
 const client = new BlogClient('your-api-key');
 
@@ -118,7 +122,7 @@ import type {
   ArticlesResponse,
   Category,
   Tag
-} from '@cakewalk-ai/aeo-api';
+} from '@cakewalk-ai/api';
 ```
 
 ## License

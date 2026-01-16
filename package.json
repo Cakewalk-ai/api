@@ -1,7 +1,7 @@
 {
-  "name": "@cakewalk-ai/aeo-api",
+  "name": "@cakewalk-ai/api",
   "version": "1.0.0",
-  "description": "Cakewalk AEO - AI-powered blog content API with built-in caching",
+  "description": "Official Cakewalk API client with built-in caching",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
