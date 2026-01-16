@@ -114,9 +114,19 @@ interface Post {
   featured_image_url: string | null;
   ai_summary: string | null;
   faq_questions: Array<{ question: string; answer: string }>;
+  author: Author | null;
   published_at: string | null;
   created_at: string | null;
   updated_at: string | null;
+}
+
+interface Author {
+  name: string | null;
+  title: string | null;
+  photo_url: string | null;
+  url: string | null;
+  bio: string | null;
+  byline: string | null;
 }
 ```
 

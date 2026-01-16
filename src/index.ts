@@ -4,6 +4,7 @@ export { AEO };
 
 // Also export types at top level for convenience
 export type {
+  Author,
   Post,
   PostsResponse,
   PostResponse,
