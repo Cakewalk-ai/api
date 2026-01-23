@@ -157,6 +157,23 @@ type ContentSection =
   | { type: 'key_takeaways'; facts: string[] };
 ```
 
+### Schema Markup Generation
+
+Structured content enables automatic generation of JSON-LD schema markup. Use specific section types to ensure your content is wrapped in the appropriate schema for search engines and AI systems.
+
+| Section Type | Schema Generated | Purpose |
+|--------------|------------------|---------|
+| `intro` | Article (articleBody) | Opening summary optimized for AI citation and featured snippets |
+| `heading` | Article | Main content sections with H2/H3 hierarchy |
+| `faq` | FAQPage | FAQ rich results in search; each Q&A becomes a Question entity |
+| `how_to_step` | HowTo | Step-by-step rich results; each step becomes a HowToStep entity |
+| `table` | — | Data tables rendered in content (no specific schema) |
+| `key_takeaways` | — | Key facts/statistics for readers (no specific schema) |
+
+Additional schemas are generated automatically:
+- **Article/BlogPosting** — Always generated with headline, author, dates, and keywords
+- **BreadcrumbList** — Navigation path; includes pillar page for cluster posts
+
 ### Working with Structured Content
 
 ```typescript
