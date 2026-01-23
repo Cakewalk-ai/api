@@ -109,6 +109,8 @@ interface Post {
   excerpt: string | null;
   body_markdown: string | null;
   body_html: string | null;
+  structured_content: StructuredContent | null;
+  schema_json_ld: object[] | null;
   meta_title: string | null;
   meta_description: string | null;
   featured_image_url: string | null;
@@ -130,6 +132,59 @@ interface Author {
 }
 ```
 
+## Structured Content
+
+Posts include `structured_content` with typed sections for rich content rendering and schema generation:
+
+```typescript
+interface StructuredContent {
+  meta?: {
+    title: string;
+    description: string;
+    excerpt?: string;
+  };
+  sections: ContentSection[];
+  citations?: Array<{ text: string; source_url: string }>;
+}
+
+// Section types
+type ContentSection =
+  | { type: 'intro'; content: string }
+  | { type: 'heading'; heading: string; level: 2 | 3; content?: string }
+  | { type: 'table'; caption?: string; headers: string[]; rows: string[][] }
+  | { type: 'faq'; question: string; answer: string }
+  | { type: 'how_to_step'; step: number; title: string; description: string }
+  | { type: 'key_takeaways'; facts: string[] };
+```
+
+### Working with Structured Content
+
+```typescript
+const post = await client.getPostBySlug('how-to-bake-a-cake');
+
+if (post?.structured_content) {
+  // Extract FAQs for a FAQ component
+  const faqs = post.structured_content.sections
+    .filter((s): s is FAQSection => s.type === 'faq');
+
+  // Extract how-to steps for a step-by-step guide
+  const steps = post.structured_content.sections
+    .filter((s): s is HowToStepSection => s.type === 'how_to_step');
+
+  // Get intro paragraph
+  const intro = post.structured_content.sections
+    .find((s): s is IntroSection => s.type === 'intro');
+}
+
+// Embed JSON-LD schemas for SEO
+if (post?.schema_json_ld) {
+  // Array of schema objects (Article, FAQPage, HowTo, etc.)
+  post.schema_json_ld.forEach(schema => {
+    // Render as <script type="application/ld+json">
+  });
+}
+```
+
 ## Caching
 
 All API responses are cached in-memory by default for 5 minutes. This reduces API calls and improves performance.
@@ -144,7 +199,14 @@ Full TypeScript support with exported types:
 
 ```typescript
 import { AEO } from '@cakewalk-ai/api';
-import type { Post, PostsResponse } from '@cakewalk-ai/api';
+import type {
+  Post,
+  PostsResponse,
+  StructuredContent,
+  ContentSection,
+  FAQSection,
+  HowToStepSection,
+} from '@cakewalk-ai/api';
 ```
 
 ## License

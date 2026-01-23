@@ -10,4 +10,15 @@ export type {
   PostResponse,
   ClientOptions,
   BlogClientConfig,
+  // Structured Content Types
+  StructuredContent,
+  StructuredContentMeta,
+  ContentSection,
+  IntroSection,
+  HeadingSection,
+  TableSection,
+  FAQSection,
+  HowToStepSection,
+  KeyTakeawaysSection,
+  Citation,
 } from './aeo';
