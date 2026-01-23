@@ -172,6 +172,8 @@ Structured content enables automatic generation of JSON-LD schema markup. Use sp
 
 Additional schemas are generated automatically:
 - **Article/BlogPosting** — Always generated with headline, author, dates, and keywords
+- **Person** — Author info embedded in Article (name, url, jobTitle from author fields)
+- **Organization** — Publisher info embedded in Article (from project settings)
 - **BreadcrumbList** — Navigation path; includes pillar page for cluster posts
 
 ### Working with Structured Content
