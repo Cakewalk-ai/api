@@ -52,6 +52,10 @@ const client = new AEO.BlogClient({
 });
 ```
 
+### Internal Links
+
+For internal links within your blog content to work correctly, you may need to update the **Blog Path** setting in your Cakewalk project settings to match your site's URL structure.
+
 ## API Reference
 
 ### `getPosts(options?)`
@@ -227,6 +231,10 @@ import type {
   HowToStepSection,
 } from '@cakewalk-ai/api';
 ```
+
+## Blog Publishing Guide
+
+See [BLOG_PUBLISHING_GUIDE.md](./BLOG_PUBLISHING_GUIDE.md) for detailed documentation on content structure, schema markup, and LLM optimization best practices.
 
 ## License
 
