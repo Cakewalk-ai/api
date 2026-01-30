@@ -47,7 +47,7 @@ const client = new AEO.BlogClient({
   projectId: 'proj_abc123...',
   options: {
     cacheTtl: 600,  // Cache TTL in seconds (default: 300)
-    baseUrl: 'https://api.cakewalk.ai',  // Custom API URL
+    baseUrl: 'https://api.cakewalk.ai/api',  // Custom API URL
   },
 });
 ```

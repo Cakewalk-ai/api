@@ -7,7 +7,7 @@ import type {
   BlogClientConfig,
 } from './types';
 
-const DEFAULT_BASE_URL = 'https://api.cakewalk.ai';
+const DEFAULT_BASE_URL = 'https://api.cakewalk.ai/api';
 const DEFAULT_CACHE_TTL = 300; // 5 minutes
 
 export class BlogClient {

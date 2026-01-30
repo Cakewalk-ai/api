@@ -112,7 +112,7 @@ export interface PostResponse {
 export interface ClientOptions {
   /** Cache TTL in seconds (default: 300) */
   cacheTtl?: number;
-  /** Base URL for the API (default: https://api.cakewalk.ai) */
+  /** Base URL for the API (default: https://api.cakewalk.ai/api) */
   baseUrl?: string;
 }
 
