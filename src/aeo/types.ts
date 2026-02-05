@@ -70,6 +70,16 @@ export interface StructuredContent {
   citations?: Citation[];
 }
 
+export interface Category {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export interface CategoriesResponse {
+  categories: Category[];
+}
+
 export interface Post {
   id: number;
   title: string;
@@ -77,6 +87,7 @@ export interface Post {
   status: string;
   post_type: string;
   post_format: string;
+  category: string | null;
   primary_keyword: string;
   secondary_keywords: string[];
   excerpt: string | null;

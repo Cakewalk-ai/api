@@ -5,6 +5,8 @@ export { AEO };
 // Also export types at top level for convenience
 export type {
   Author,
+  Category,
+  CategoriesResponse,
   Post,
   PostsResponse,
   PostResponse,

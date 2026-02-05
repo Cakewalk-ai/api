@@ -1,6 +1,8 @@
 export { BlogClient } from './client';
 export type {
   Author,
+  Category,
+  CategoriesResponse,
   Post,
   PostsResponse,
   PostResponse,

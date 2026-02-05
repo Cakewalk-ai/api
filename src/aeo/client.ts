@@ -2,6 +2,8 @@ import type {
   Post,
   PostsResponse,
   PostResponse,
+  Category,
+  CategoriesResponse,
   ClientOptions,
   CacheEntry,
   BlogClientConfig,
@@ -65,17 +67,22 @@ export class BlogClient {
    */
   async getPosts(options: {
     status?: 'published' | 'planned' | 'writing' | 'review' | 'all';
+    category?: string;
     limit?: number;
     offset?: number;
   } = {}): Promise<PostsResponse> {
-    const { status = 'published', limit = 50, offset = 0 } = options;
+    const { status = 'published', category, limit = 50, offset = 0 } = options;
     const params = new URLSearchParams({
       status,
       limit: String(limit),
       offset: String(offset),
     });
+    if (category) {
+      params.set('category', category);
+    }
 
-    return this.cached(`${this.projectId}:posts:${status}:${limit}:${offset}`, () =>
+    const cacheKey = `${this.projectId}:posts:${status}:${category || 'all'}:${limit}:${offset}`;
+    return this.cached(cacheKey, () =>
       this.fetch<PostsResponse>(`/v1/posts?${params}`)
     );
   }
@@ -112,6 +119,16 @@ export class BlogClient {
       }
       throw error;
     }
+  }
+
+  /**
+   * Get all categories for the project
+   */
+  async getCategories(): Promise<Category[]> {
+    const response = await this.cached(`${this.projectId}:categories`, () =>
+      this.fetch<CategoriesResponse>(`/v1/categories`)
+    );
+    return response.categories;
   }
 
   /**
