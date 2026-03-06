@@ -44,15 +44,17 @@ export class BlogClient {
   /**
    * Internal fetch wrapper with error handling
    */
-  private async fetch<T>(endpoint: string): Promise<T> {
+  private async fetch<T>(endpoint: string, options?: { method?: string; body?: unknown }): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
     const response = await fetch(url, {
+      method: options?.method || 'GET',
       headers: {
         'Authorization': `Bearer ${this.apiKey}`,
         'X-Project-Id': this.projectId,
         'Content-Type': 'application/json',
       },
+      ...(options?.body !== undefined && { body: JSON.stringify(options.body) }),
     });
 
     if (!response.ok) {
@@ -129,6 +131,32 @@ export class BlogClient {
       this.fetch<CategoriesResponse>(`/v1/categories`)
     );
     return response.categories;
+  }
+
+  /**
+   * Get posts pending approval
+   */
+  async getUnapprovedPosts(): Promise<PostsResponse> {
+    return this.getPosts({ status: 'review' });
+  }
+
+  /**
+   * Approve a post by ID (sets status to published)
+   */
+  async approvePost(id: number): Promise<Post> {
+    const response = await this.fetch<PostResponse>(`/v1/posts/${id}/status`, {
+      method: 'PATCH',
+      body: { status: 'published' },
+    });
+
+    // Clear cached entries for this post
+    for (const key of this.cache.keys()) {
+      if (key.includes(':post:') || key.includes(':posts:')) {
+        this.cache.delete(key);
+      }
+    }
+
+    return response.post;
   }
 
   /**

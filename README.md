@@ -90,6 +90,33 @@ const post = await client.getPostById(123);
 // Returns: Post | null
 ```
 
+### `getUnapprovedPosts()`
+
+Get posts pending approval (shorthand for `getPosts({ status: 'review' })`).
+
+```typescript
+const { posts } = await client.getUnapprovedPosts();
+// Returns: PostsResponse
+```
+
+### `approvePost(id)`
+
+Approve a post by setting its status to published.
+
+```typescript
+const post = await client.approvePost(123);
+// Returns: Post
+```
+
+### `getCategories()`
+
+Get all categories for the project.
+
+```typescript
+const categories = await client.getCategories();
+// Returns: Category[]
+```
+
 ### `clearCache()`
 
 Clear the entire cache.
