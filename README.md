@@ -37,6 +37,13 @@ const post = await client.getPostBySlug('my-post-slug');
 
 // Get single post by ID
 const post = await client.getPostById(123);
+
+// Review and approve posts
+const { posts: pending } = await client.getUnapprovedPosts();
+const approved = await client.approvePost(pending[0].id);
+
+// Get categories
+const categories = await client.getCategories();
 ```
 
 ## Configuration
